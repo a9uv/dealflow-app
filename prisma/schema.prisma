@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL")
+    directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Post {
@@ -17,4 +18,84 @@ model Post {
     updatedAt DateTime @updatedAt
 
     @@index([name])
+}
+
+model User {
+    id          String     @id @default(cuid())
+    name        String     @db.VarChar(255)
+    email       String     @unique @db.VarChar(255)
+    isAdmin     Boolean
+    dateOfBirth DateTime
+    accessToken String     @db.VarChar(255)
+    employee    Employee[]
+    employeeId  String?    @db.VarChar(255)
+    clients     Client[]
+
+    //clerk auth if needed
+}
+
+model Employee {
+    id          String   @id @default(cuid())
+    name        String   @db.VarChar(255)
+    email       String   @unique @db.VarChar(255)
+    isAdmin     Boolean
+    dateOfBirth DateTime
+    accessToken String   @db.VarChar(255)
+    userId      String   @db.VarChar(255)
+    user        User     @relation(fields: [userId], references: [id])
+}
+
+model Client {
+    id                   String   @id @default(cuid())
+    name                 String   @db.VarChar(255)
+    dateOfBirth          DateTime
+    phoneNumber          String   @db.VarChar(255)
+    email                String   @db.VarChar(255)
+    socialSecurityNumber String   @db.VarChar(255)
+    address              String   @db.VarChar(255)
+    status               String   @db.VarChar(255)
+    image_url            String   @db.VarChar(255)
+
+    subsidiaries Subsidiary[]
+    policies     Policy[]
+    userId       String       @db.VarChar(255)
+    user         User         @relation(fields: [userId], references: [id])
+}
+
+model Subsidiary {
+    id                   String   @id @default(cuid())
+    name                 String   @db.VarChar(255)
+    dateOfBirth          DateTime
+    phoneNumber          String   @db.VarChar(255)
+    email                String   @db.VarChar(255)
+    socialSecurityNumber String   @db.VarChar(255)
+    address              String   @db.VarChar(255)
+    status               String   @db.VarChar(255)
+
+    client   Client @relation(fields: [clientId], references: [id])
+    clientId String
+}
+
+model Policy {
+    id             String    @id @default(cuid())
+    name           String    @db.VarChar(255)
+    type           String    @db.VarChar(255)
+    premium        Float
+    expirationDate DateTime?
+    startDate      DateTime?
+    isSigned       Boolean
+    stage          String?   @db.VarChar(255)
+    formId         String?   @db.VarChar(255)
+
+    events Event[]
+
+    client   Client? @relation(fields: [clientId], references: [id])
+    clientId String?
+}
+
+model Event {
+    id       String  @id @default(cuid())
+    label    String  @db.VarChar(255)
+    policy   Policy? @relation(fields: [policyId], references: [id])
+    policyId String?
 }
