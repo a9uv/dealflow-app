@@ -23,7 +23,7 @@ export interface ClientData {
   user_id: string;
   number_of_policies: number;
   address: string;
-  social_security_number: string; // **Security warning: Handle with care!**
+  social_security_number: string; 
 }
 
 const initialState: ClientData = {
