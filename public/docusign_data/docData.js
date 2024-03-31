@@ -1,0 +1,1 @@
+export const docs = {"recipients":{"signers":[{"email":"anuvllc1@gmail.com","name":"Anuv LLC","recipientId":"1","routingOrder":"1","tabs":{"signHereTabs":[{"anchorString":"Client Signature","anchorUnits":"pixels","anchorXOffset":20,"anchorYOffset":10}]}}]},"status":"sent"}

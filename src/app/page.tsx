@@ -1,65 +1,71 @@
-import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
-import { api } from "~/trpc/server";
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import styles from '@/app/ui/home.module.css';
+import { lusitana } from '~/app/ui/fonts';
+// import Image from 'next/image';
+// import logoIpsum from '../public/logoipsum.svg'
+import fs from 'fs'
+import path from 'path'
 
-export default async function Home() {
-  // const hello = await api.post.hello({ text: "from tRPC" });
+export default function Page() {
+
+
+  // const filePath = path.join(process.cwd(), 'public', 'pdfs', 'Geico_Home.pdf');
+  //   const filePath = 'public/pdfs/Geico_Home.pdf'
+  // const pdfBinary = fs.readFileSync(filePath, {encoding: 'base64'});
+  // console.log('PDF Binary Here: ', pdfBinary.substring(0, 50));
+
+
+
+
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          CREARLO <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+    <main className="flex min-h-screen flex-col p-6">
+
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
+        <div className="w-32 text-white md:w-40">
+          {/* <AcmeLogo /> */}
+          <h1 className={`${lusitana.className} mb-4 text-4xl md:text-4xl`}>DealFlow</h1>
+        </div>
+      </div>
+      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
+        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
+          {/* <Image
+            src={logoIpsum}
+            alt="DealFlow Logo"
+            height={80}
+            width={80}
+          /> */}
+          <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
+            <strong>Welcome to DealFlow.</strong> All-in-one CRM Software for {' '}
+            the Insurance & Finance industries.
+          </p>
           <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
+            href="/dashboard"
+            className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
           >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
+            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
         </div>
-        {/* <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {hello ? hello.greeting : "Loading tRPC query..."}
-          </p>
-        </div> */}
-
-        {/* <CrudShowcase /> */}
+        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
+          {/* Add Hero Images Here */}
+          {/* <Image
+          src="/hero-desktop.png"
+          width={1000}
+          height={760}
+          className="hidden md:block"
+          alt="Screenshots of the dashboard project showing desktop version"
+        />
+        <Image
+          src="/hero-mobile.png"
+          width={560}
+          height={620}
+          className="block md:hidden"
+          alt="Screenshot of the dashboard project showing mobile version"
+        /> */}
+        </div>
       </div>
     </main>
   );
 }
-
-// async function CrudShowcase() {
-//   const latestPost = await api.post.getLatest();
-
-//   return (
-//     <div className="w-full max-w-xs">
-//       {latestPost ? (
-//         <p className="truncate">Your most recent post: {latestPost.name}</p>
-//       ) : (
-//         <p>You have no posts yet.</p>
-//       )}
-
-//       <CreatePost />
-//     </div>
-//   );
-// }

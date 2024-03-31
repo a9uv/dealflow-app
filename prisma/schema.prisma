@@ -55,7 +55,6 @@ model Client {
     address              String   @db.VarChar(255)
     status               String   @db.VarChar(255)
     image_url            String   @db.VarChar(255)
-
     subsidiaries Subsidiary[]
     policies     Policy[]
     userId       String       @db.VarChar(255)
