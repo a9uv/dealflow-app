@@ -1,0 +1,1 @@
+export const accessData = {"resultSetSize":"0","totalSetSize":"0","nextUri":"","previousUri":""}

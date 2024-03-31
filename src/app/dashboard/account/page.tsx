@@ -1,16 +1,20 @@
-import { accTokenMemory } from "~/app/api/a-token/route";
 import Link from "next/link";
-import { globalAccessToken, globalAccountID, globalBaseURI, globalUserInfo } from './doc/page';
-import { accessData } from '../../../../public/docusign_data/access'
 
-const integrationKey = process.env.NEXT_PUBLIC_DOCUSIGN_INTEGRATION_KEY;
+import { accessData } from "~/public/docusign_data/access";
+
+// import { globalAccessToken, globalAccountID, globalBaseURI, globalUserInfo } from './doc/page';
+
+
+
+const integrationKey = process.env.DOCUSIGN_INTEGRATION_KEY;
 const envSecretKey = process.env.DOCUSIGN_SECRET_KEY
 const redirectUri = 'http://localhost:3000/dashboard/account/doc';
 const scope = 'signature';
- const docuLoginURI = `https://account-d.docusign.com/oauth/auth?response_type=code&scope=${scope}&client_id=${integrationKey}&redirect_uri=${redirectUri}`;
+const docuLoginURI = `https://account-d.docusign.com/oauth/auth?response_type=code&scope=${scope}&client_id=${integrationKey}&redirect_uri=${redirectUri}`;
 
 export default function Page() {
 
+console.log("enter account . . . ");
 
   
 
@@ -37,7 +41,7 @@ export default function Page() {
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Password</h2>
         <div className="flex items-center">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">Change</button>
+          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Change</button>
         </div>
       </div>
 
@@ -58,7 +62,7 @@ export default function Page() {
       <p> You are not logged into DocuSign yet. Please log in by pressing the button below: </p>
                     {<div>
                   <Link
-                    className="flex mt-3 mb-3 h-10 items-center rounded-lg w-36 border border-solid border-black bg-yellow-200 px-4 text-sm font-medium"
+                    className="flex mt-3 mb-3 h-10 items-center rounded-lg w-24 border border-solid border-black bg-yellow-200 hover:bg-yellow-300 px-4 text-sm font-medium"
                     href={docuLoginURI}>DocuSign</Link>
                       </div>
                     }

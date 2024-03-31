@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 import fs from 'fs'
-import { accessData } from '@/public/docusign_data/access'
+import { accessData } from "~/public/docusign_data/access";
+const path = require("path")
 
+path.resolve()
 
 export let globalDocuCode: string;
 export let globalAccessToken: string;
@@ -17,6 +19,8 @@ export let globalUserInfo: string[];
 export default async function Page(props: any) {
     
 
+  console.log("enter account/doc . . . ");
+
     if (props.searchParams.code) globalDocuCode = props.searchParams.code;
 
     // STEP 2: Get Access Token from DocuSign
@@ -27,16 +31,6 @@ export default async function Page(props: any) {
     const reqBody = { globalDocuCode }
 
     
-    
-        
-
-    // const res = await fetch(fetchURL, {
-    //     method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //     body: JSON.stringify(reqBody)
-    // })
         
     const res = await axios.post(fetchURL, JSON.stringify(reqBody), {
       headers: {
@@ -51,8 +45,10 @@ export default async function Page(props: any) {
    
     if (res.status === 200) {
       console.log('accessJSON data that is written,' , writingData);
+      const filePath = path.join(process.cwd(), 'src','public', 'docusign_data', 'access.js');
+      console.log('\n\nfilePath: ', filePath);
       
-      fs.writeFileSync('./public/docusign_data/access.js', `export const accessData = ${writingData}`)
+      fs.writeFileSync(filePath, `export const accessData = ${writingData}`)
       
 
 
@@ -66,11 +62,14 @@ export default async function Page(props: any) {
     
 
 
-    if(accessJSON.status === 200){
+    if (accessJSON.status === 200) {
+      console.log("Successfully loading ");
+      
       return (
-        <h1> DocuSign logged in for {accessJSON.name} with email: {accessJSON.email} <br />
+        <h1> DocuSign logged in for {accessData.name} with email: {accessData.email} <br />
         
           Sending back to Account Page . . .
+        
         
         {redirect('/dashboard/account')}
         </h1>
@@ -93,7 +92,8 @@ export default async function Page(props: any) {
     
 
 
-  }
+  } 
+
 
     return (
         <h1>

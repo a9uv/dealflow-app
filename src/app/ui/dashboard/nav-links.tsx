@@ -8,7 +8,8 @@ import {
     UserCircleIcon,
     QuestionMarkCircleIcon,
     BriefcaseIcon,
-    UserGroupIcon
+    UserGroupIcon,
+    DocumentArrowUpIcon
 
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -26,7 +27,9 @@ const links = [
     { name: 'Quotes', href: '/dashboard/quotes', icon: PencilIcon },
     { name: 'Forms', href: '/dashboard/forms', icon: DocumentDuplicateIcon },
     { name: 'Agents', href: '/dashboard/agents', icon: UserGroupIcon },
+    {name: 'DocuSign', href: '/dashboard/docusign', icon: DocumentArrowUpIcon},
     { name: 'Account', href: '/dashboard/account', icon: UserCircleIcon },
+
 
     // { name: 'Support', href: '/dashboard/support', icon: QuestionMarkCircleIcon },
 ];
