@@ -39,9 +39,9 @@ const router = useRouter()
 
     return (
     <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
+      <div className="inline-block min-w-[73vw] align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <table className="hidden min-w-full text-gray-900 md:table">
+          <table className="hidden min-w-[73vw] text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
                             <tr
                             >
@@ -52,8 +52,12 @@ const router = useRouter()
                   Company
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
-                </th>
+                  <span className="">Review</span>
+                  </th>
+                  
+
+
+
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -73,29 +77,31 @@ const router = useRouter()
                   <td className="whitespace-nowrap px-3 py-3">
                     {form.company}
                   </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3 flex">
                     <button className="flex h-10 items-center rounded-lg bg-blue-400 
       px-4 text-sm font-medium text-white transition-colors
        hover:bg-blue-500 Hover:text-white focus-visible:outline border
        border-solid border-white
        focus-visible:outline-2 focus-visible:outline-offset-2
         focus-visible:outline-blue-600" onClick={() => toggleVisibility(form.id)}> Review </button>
-                  </td>
-                    </tr>
-                      {visibleRows.includes(form.id) && (
-                      <>
-                        <tr>
-                          <td colSpan={3}>
-                            <div> <button className="flex h-10 items-center rounded-lg bg-blue-500 
+                        <button className="flex h-10 items-center rounded-lg bg-blue-500 
       px-4 text-sm font-medium text-white transition-colors
        hover:bg-blue-900 Hover:text-white focus-visible:outline border
        border-solid border-white
        focus-visible:outline-2 focus-visible:outline-offset-2
-        focus-visible:outline-blue-600" onClick={() => selectForm(form.id)}> Select</button></div>
+        focus-visible:outline-blue-600" onClick={() => selectForm(form.id)}> Select</button>
+                      </td>
+                      
+                    </tr>
+                      {visibleRows.includes(form.id) && (
+                      <>
+                        <tr>
+                          <td colSpan={4}>
+                            <div> </div>
                           </td>
                         </tr>
                                         <tr>
-                                            <td colSpan={3}>
+                                            <td colSpan={4}>
                                                 <div><embed src={form.href} type="application/pdf" width="100%" height="600px" /></div>
                                             </td>
                                         </tr>
