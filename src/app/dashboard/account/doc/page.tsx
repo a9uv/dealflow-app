@@ -5,8 +5,6 @@ import fs from 'fs'
 import { accessData } from "~/public/docusign_data/access";
 const path = require("path")
 
-path.resolve()
-
 export let globalDocuCode: string;
 export let globalAccessToken: string;
 export let globalAccountID: string;
