@@ -11,7 +11,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     console.log('entering POST function in api/p-new-envelope');
 
 
-    if (accessToken == null || baseURI == null || accountID == null) {
+    if (accessToken == null || accessToken == "") {
         return NextResponse.json(
             {"message": "DocuSign Authorization incomplete - please log in to DocuSign through the Accounts page"}
         )
@@ -20,6 +20,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const body = await req.json()
 
+
+    
 
     
 
@@ -56,15 +58,3 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
 }
-
-
-// "tabs": {
-//     "signHereTabs":
-//     [{
-//         "anchorString": "Client Signature",
-//         "anchorUnits": "pixels",
-//         "anchorXOffset": "20",
-//         "anchorYOffset": "10"
-//     }]
-// }
-

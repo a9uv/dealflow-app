@@ -15,7 +15,7 @@ import { forms } from '../forms/FormsData';
 
 
 const path = require("path")
-const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'access.js');
+
 
 // async function showDocuUI() {
 
@@ -114,7 +114,7 @@ export default async function Page() {
                                 <div className='flex justify-end mr-20 mt-3'>
                                     <Link
                                         className="flex mt-3 mb-3 h-10 items-center rounded-lg w-36 border border-solid border-black bg-yellow-200 px-4 text-sm font-medium"
-                                        href={'/dashboard/quotes/new-env'}
+                                        href={'/dashboard/docusign/new-env'}
                                     > + New Envelope </Link>
                                 </div>
                             </>
