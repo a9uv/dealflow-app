@@ -53,10 +53,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
         if (res.ok) {
             const data = await res.json();
 
+
+
             const getBase64StringPromises = data.envelopes.map((envelope: { envelopeId: string; }) => getBase64String(envelope.envelopeId));
             const base64Strings = await Promise.all(getBase64StringPromises);
 
-
+            console.log(`all document base64 strings loaded! \n`);
 
 
             const customJsonResponse = {
@@ -71,7 +73,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     "emailSubject": envelope.emailSubject,
                     "emailBlurb": envelope.emailBlurb,
                     "envelopeId": envelope.envelopeId,
-                    "sentDateTime": envelope.sentDateTime,
+                    "sentDateTime": userViewDateConverter(envelope.sentDateTime),
                     "pdfString": base64Strings[index],
                     "sender": {
                         "userName": envelope.sender.userName,
@@ -108,4 +110,34 @@ async function getBase64String(envelopeId: string) {
     } else {
         return 'PDF document could not be loaded';
     }
+}
+
+
+function userViewDateConverter(envelopeDate: string):string {
+    const [dateString, timeString] = envelopeDate.split("T") as [string, string];
+    console.log(`\ndateString: ${dateString}\ntimeString: ${timeString}\n`);
+
+    const month = dateString.slice(5, 7);
+    const year = dateString.slice(0, 4);
+    const day = dateString.slice(8, 10);
+
+    const formattedDate = `${month}/${day}/${year}`;
+
+    // Parse the time
+    const hours = parseInt(timeString.substring(0, 2));
+    const minutes = timeString.substring(3, 5);
+
+    // Convert to 12-hour format and add meridiem indicator (AM/PM)
+    const meridiem = hours >= 12 ? "PM" : "AM";
+    const convertedHours = hours % 12 || 12;
+
+    const formattedTime = `${convertedHours}:${minutes} ${meridiem}`;
+
+
+    const userViewDate = `${formattedDate}| ${formattedTime}`;
+
+    console.log(`\n${userViewDate}\n`)
+
+    return userViewDate;
+
 }

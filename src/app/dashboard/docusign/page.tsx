@@ -8,7 +8,7 @@ import DocuSignButtons from './docuSignButtons'
 import { lusitana } from '~/app/ui/fonts';
 
 import { accessData } from '../../../public/docusign_data/access'
-import { envelopes } from '~/public/docusign_data/envelope'
+import { envelopeList } from '~/public/docusign_data/envelope'
 import EnvelopeTable from './EnvelopeTable'
 import { docs } from '~/public/docusign_data/docData'
 import { forms } from '../forms/FormsData';
@@ -53,7 +53,7 @@ export default async function Page() {
 
 
     if (accessData.accessToken !== "" && accessData.accountID !== ""
-        && accessData.baseURI !== "" && envelopes.resultSetSize === "") {
+        && accessData.baseURI !== "" && envelopeList.resultSetSize === "") {
         const res = await axios.get('http://localhost:3000/api/g-envelope');
 
         if (res.data.error) {
@@ -66,7 +66,7 @@ export default async function Page() {
 
         const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'envelope.js');
 
-        fs.writeFileSync(filePath, `export const envelopes = ${JSON.stringify(res.data)}`);
+        fs.writeFileSync(filePath, `export const envelopeList = ${JSON.stringify(res.data)}`);
 
 
 
@@ -103,7 +103,7 @@ export default async function Page() {
                             <h1 className="text-xl font-medium">Envelopes</h1>
                             <div className="w-10/12"> </div>
                         </div>
-                        {envelopes.resultSetSize === "" ?
+                        {envelopeList.resultSetSize === "" ?
                             (
                                 <div>
                                     No envelope data retrieved

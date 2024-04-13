@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { accessData } from "~/public/docusign_data/access";
-import { envelopes } from "~/public/docusign_data/envelope"
+import { envelopeList } from "~/public/docusign_data/envelope"
 // import { handleShowEnvelopes } from "./envelope-fetch/page";
 
 

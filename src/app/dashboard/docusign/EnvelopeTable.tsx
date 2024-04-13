@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { envelopes } from '~/public/docusign_data/envelope';
+import { envelopeList } from '~/public/docusign_data/envelope';
 
 const EnvelopeTable = () => {
     
@@ -20,10 +20,9 @@ const EnvelopeTable = () => {
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
 
-
-
-                    
-
+                    {
+                        (envelopes in envelopeList) ? 
+                    }
                      <table className="min-w-full text-gray-900 md:table">
                         <thead className="rounded-lg text-left text-sm font-normal">
                             <tr>
@@ -45,7 +44,7 @@ const EnvelopeTable = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white">
-                            {envelopes.envelopes.map((envelope: {
+                            {envelopeList.envelopes.map((envelope: {
                                 pdfString: any;
                                 envelopeId: string;
                                 emailSubject: string; 
