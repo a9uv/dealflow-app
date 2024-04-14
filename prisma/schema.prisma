@@ -26,11 +26,11 @@ model User {
     email       String     @unique @db.VarChar(255)
     isAdmin     Boolean
     dateOfBirth DateTime
-    accessToken String     @db.VarChar(255)
+    accessToken String?     @db.VarChar(255)
+    refreshToken String?    @db.VarChar(255)
     employee    Employee[]
     employeeId  String?    @db.VarChar(255)
     clients     Client[]
-
     //clerk auth if needed
 }
 
@@ -48,17 +48,15 @@ model Employee {
 model Client {
     id                   String   @id @default(cuid())
     name                 String   @db.VarChar(255)
-    dateOfBirth          DateTime
+    dateOfBirth          String   @db.VarChar(255)
     phoneNumber          String   @db.VarChar(255)
     email                String   @db.VarChar(255)
     socialSecurityNumber String   @db.VarChar(255)
     address              String   @db.VarChar(255)
     status               String   @db.VarChar(255)
     image_url            String   @db.VarChar(255)
-    subsidiaries Subsidiary[]
-    policies     Policy[]
-    userId       String       @db.VarChar(255)
-    user         User         @relation(fields: [userId], references: [id])
+    userId               String   @db.VarChar(255)
+    user                 User     @relation(fields: [userId], references: [id])
 }
 
 model Subsidiary {
@@ -70,8 +68,6 @@ model Subsidiary {
     socialSecurityNumber String   @db.VarChar(255)
     address              String   @db.VarChar(255)
     status               String   @db.VarChar(255)
-
-    client   Client @relation(fields: [clientId], references: [id])
     clientId String
 }
 
@@ -85,10 +81,7 @@ model Policy {
     isSigned       Boolean
     stage          String?   @db.VarChar(255)
     formId         String?   @db.VarChar(255)
-
     events Event[]
-
-    client   Client? @relation(fields: [clientId], references: [id])
     clientId String?
 }
 
@@ -97,4 +90,21 @@ model Event {
     label    String  @db.VarChar(255)
     policy   Policy? @relation(fields: [policyId], references: [id])
     policyId String?
+}
+
+
+model Revenue {
+  id        Int      @id @default(autoincrement())
+  month     String   @db.VarChar(255)
+  revenue   Decimal  @db.Decimal(10, 2)
+}
+
+
+model Invoices {
+    id              String   @id @default(cuid())
+    amount          Int
+    status          String
+    date            String
+    clientId        String   @db.VarChar(255)
+
 }

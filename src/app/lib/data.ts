@@ -1,59 +1,108 @@
-// import { sql } from '@vercel/postgres';
-// import {
-//     CustomerField,
-//     CustomersTableType,
-//     InvoiceForm,
-//     InvoicesTable,
-//     LatestInvoiceRaw,
-//     User,
-//     Revenue,
-// } from './definitions';
-// import { formatCurrency } from './utils';
-// import { unstable_noStore } from 'next/cache';
+import { sql } from '@vercel/postgres'
+import {
+    CustomerField,
+    CustomersTableType,
+    InvoiceForm,
+    InvoicesTable,
+    LatestInvoiceRaw,
+    User,
+    Revenue,
+    Invoice,
+} from './definitions';
+import { formatCurrency } from './utils';
+import { unstable_noStore } from 'next/cache';
 
-// export async function fetchRevenue() {
 
-//     // Add noStore() here to prevent the response from being cached.
-//     // This is equivalent to in fetch(..., {cache: 'no-store'}).
-//     unstable_noStore();
-//     try {
-//         // Artificially delay a response for demo purposes.
-//         // Don't do this in production :)
+import { PrismaClient } from '@prisma/client';
 
-//         // console.log('Fetching revenue data...');
-//         // await new Promise((resolve) => setTimeout(resolve, 3000));
+const prisma = new PrismaClient()
 
-//         const data = await sql<Revenue>`SELECT * FROM revenue`;
+export async function fetchRevenue() {
 
-//         // console.log('Data fetch completed after 3 seconds.');
+    // Add noStore() here to prevent the response from being cached.
+    // This is equivalent to in fetch(..., {cache: 'no-store'}).
+    unstable_noStore();
+    try {
+        const receivedRevenueData = await prisma.revenue.findMany();
+        const revenueData = receivedRevenueData.map(({ id, month, revenue }) => ({
+            id,
+            month,
+            revenue: revenue.toNumber(), // Convert Decimal to Number
+        }));
+        // console.log(revenueData);
+        return revenueData;
+    } catch (error) {
+        console.error('fetchRevenue DB Error:', error);
+        return [];
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 
-//         return data.rows;
-//     } catch (error) {
-//         console.error('Database Error:', error);
-//         throw new Error('Failed to fetch revenue data.');
-//     }
-// }
+export async function fetchLatestInvoices() {
+    unstable_noStore();
+    try {
+        const invoices = await prisma.invoices.findMany({
+            take: 5,
+            orderBy: {
+                date: 'desc',
+            },
+        });
 
-// export async function fetchLatestInvoices() {
-//     unstable_noStore();
-//     try {
-//         const data = await sql<LatestInvoiceRaw>`
-//       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       ORDER BY invoices.date DESC
-//       LIMIT 5`;
+        const latestInvoices = await Promise.all(
+            invoices.map(async (invoice) => {
+                const clientData = await getClientData(invoice.clientId);
+                return {
+                    ...invoice,
+                    ...(clientData || {}), // Spread the clientData object if it exists, otherwise spread an empty object
+                };
+            })
+        );
+        console.log(latestInvoices);
+        return latestInvoices;
+    } catch (error) {
+        console.error('fetchLatestInvoices DB Error:', error);
+        return []
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 
-//         const latestInvoices = data.rows.map((invoice) => ({
-//             ...invoice,
-//             amount: formatCurrency(invoice.amount),
-//         }));
-//         return latestInvoices;
-//     } catch (error) {
-//         console.error('Database Error:', error);
-//         throw new Error('Failed to fetch the latest invoices.');
-//     }
-// }
+interface InvoiceClientData{
+    name: string;
+    email: string;
+    image_url: string;
+}
+
+export async function getClientData(clientId: string): Promise<InvoiceClientData | null>{
+    try {
+        const client = await prisma.client.findUnique({
+            where: {
+                id: clientId,
+            },
+            select: {
+                name: true,
+                email: true,
+                image_url: true,
+            },
+        });
+
+        if (client) {
+            return {
+                name: client.name,
+                email: client.email,
+                image_url: client.image_url,
+            };
+        }
+
+
+
+        return null;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
 
 // export async function fetchCardData() {
 //     unstable_noStore();
