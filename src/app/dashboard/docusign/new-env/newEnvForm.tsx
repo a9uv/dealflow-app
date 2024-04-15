@@ -13,24 +13,6 @@ const inState = {
     message: null
 }
 
-// export default function SimpleForm() {
-//     const {pending} = useFormStatus()
-//     const [state, formAction] = useFormState(createForm, inState)
-    
-//     return (
-//         <form action={formAction}>
-//             <label htmlFor="name">Name</label>
-//             <input type="text" id='name' name='name'  />
-//             <label htmlFor="age">Age</label>
-//             <input type="text" id="age" name="age" />
-//             <button type="submit" aria-disabled={pending}> Add </button>
-//             <p aria-live="polite" className="sr-only" role='status'>
-//                 {state?.message}
-//             </p>
-//         </form>
-//     )
-// }
-
 interface FormsData {
     id: string;
     href: string;
@@ -116,8 +98,6 @@ export default function NewEnvelope() {
                                 type="name"
                                 name="name"
                                 placeholder="Signer Name"
-                                // value={formData.name}
-                                // onChange={(e) => setFormData({...formData, name: e.target.value })}
                                 required
                                 />
                             </div>
@@ -134,8 +114,6 @@ export default function NewEnvelope() {
                                     type="subject"
                                     name="email"
                                     placeholder="Signer Email"
-                                    // value={formData.email}
-                                    // onChange={(e) => setFormData({...formData, email: e.target.value })}
                                     required
                                     />
                                 </div>
@@ -146,33 +124,30 @@ export default function NewEnvelope() {
                                 htmlFor="subject">
                                     Email Subject
                                 </label>
-                            <div className="relative">
+                                <div className="relative">
                                     <input
                                     className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     id="email_subject"
                                     type="subject"
                                     name="subject"
                                     placeholder="Email Subject"
-                                    //   value={formData.subject}
-                                    //   onChange={(e) => setFormData({...formData, subject: e.target.value })}
                                     required
                                     />
                                 </div>
+
+
                             </div>
                             <div>
                                 <label className="mb-3 mt-5 block 
                                 text-xs font-medium text-gray-900" htmlFor="message">
                                     Email Message
                                 </label>
-                             <div className="relative">
+                            <div className="relative">
                                     <textarea
                                     className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                                     id="email_message"
                                     name="message"
                                     placeholder="Email Message"
-                                    //   value={formData.message}
-                                    //   onChange={(e) => setFormData({...formData, message: e.target.value })}
-                                    
                                     />
                                 </div>
                             </div>
@@ -193,18 +168,17 @@ export default function NewEnvelope() {
                                         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
                                         <table className="hidden min-w-full text-gray-900 md:table">
                                             <thead className="rounded-lg text-left text-sm font-normal">
-                                                            <tr
-                                                            >
-                                                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                                                Policy
-                                                </th>
-                                                <th scope="col" className="px-3 py-5 font-medium">
-                                                Company
-                                                </th>
-                                                <th scope="col" className="relative py-3 pl-6 pr-3">
-                                                <span className="sr-only">Edit</span>
-                                                </th>
-                                            </tr>
+                                                <tr>
+                                                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                                                    Policy
+                                                    </th>
+                                                    <th scope="col" className="px-3 py-5 font-medium">
+                                                    Company
+                                                    </th>
+                                                    <th scope="col" className="relative py-3 pl-6 pr-3">
+                                                    <span className="sr-only">Edit</span>
+                                                    </th>
+                                                </tr>
                                             </thead>
                                             <tbody className="bg-white">
                                                 {forms.map((form: FormsData) => (
@@ -219,8 +193,7 @@ export default function NewEnvelope() {
                 
                                                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                                             <div className="flex items-center gap-3">
-                                                                <label></label>
-                                                                                                <label className=" block text-xs font-medium text-gray-900"
+                                                <label className=" block text-xs font-medium text-gray-900"
                                             htmlFor="form-selection">+</label>
                                             <input
                                                 type="radio"
@@ -228,17 +201,6 @@ export default function NewEnvelope() {
                                                 name="chosenForm"
                                                     value={form.id}
                                                     required
-                                                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                //     const selectedForm = forms.find((f: FormsData) => f.id === e.target.value);
-                                                //     setFormData({
-                                                //     ...formData,
-                                                //         chosenForm: {
-                                                //             id: selectedForm?.id ?? '',
-                                                //             name: selectedForm?.name ?? '',
-                                                //             href: selectedForm?.href ?? '',
-                                                //     },
-                                                //     });
-                                                // }}
                                         />
                                             {form.icon}
                                             <p>{form.name}</p>
@@ -294,64 +256,3 @@ export default function NewEnvelope() {
 
 
 
-
-
-
-            /*    
-        //Set Documents
-        const documents = [
-            {
-                documentBase64: rawFormData.chosenForm.href,
-                name: rawFormData.chosenForm.name,
-                fileExtension: "pdf",
-                documentId: "1"
-            }
-        ]
-
-        //Set Document Signing Tabs
-        const tabs = {
-            signHereTabs: [
-                {
-                    anchorString: "**signature_1**",
-                    "anchorUnits": "pixels",
-                    "anchorXOffset": 20,
-                    "anchorYOffset": 10
-                },
-                {
-                    "anchorString": "/sn1/",
-                    "anchorUnits": "pixels",
-                    "anchorXOffset": 20,
-                    "anchorYOffset": 10
-                }
-            ]
-        }
-
-        //Set Recipients (Signers and CC)
-        const recipients = {
-            signers: [
-                {
-                    email: rawFormData.email,
-                    name: rawFormData.name,
-                    recipientId: "1",
-                    routingOrder: "1",
-                    tabs: tabs,
-                }
-            ]
-        }
-
-        //Final Envelope Build
-        const envelope = {
-            documents: documents,
-            recipients: recipients,
-            status: "sent"
-        }
-            
-            
-            
-        makeEnvelope(rawFormData)
-
-        console.log(rawFormData);
-            
-*/
-
-        // redirect('/dashboard/quotes')

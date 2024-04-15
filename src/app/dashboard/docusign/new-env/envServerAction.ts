@@ -9,6 +9,7 @@ import { forms } from "../../forms/FormsData";
 import axios from 'axios'
 
 import { NextResponse } from 'next/server';
+import { redirect } from 'next/navigation';
 const path = require("path")
 
 
@@ -43,10 +44,11 @@ export async function createEnvelope(state: NextResponse, formData: FormData) {
                 const refreshDocu = await axios.get('http://localhost:3000/api/g-envelope');
 
                 if (refreshDocu.status == 200) {
+                    console.log(`\nNEW ENVELOPE CREATION SUCCESS!!\n`);
+                    
 
                     const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'envelope.js');
                     fs.writeFileSync(filePath, `export const envelopeList = ${JSON.stringify(refreshDocu.data)}`);
-                    return NextResponse.redirect('/dashboard/docusign');
                 } else {
                     console.error(`ERROR REFETCHING DOCUMENTS: status code ${res.status}`)
                 }
@@ -63,6 +65,8 @@ export async function createEnvelope(state: NextResponse, formData: FormData) {
         console.error(error)
     }
 
+
+    redirect('/dashboard/docusign')
 
 
     

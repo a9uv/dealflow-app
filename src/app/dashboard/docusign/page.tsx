@@ -131,10 +131,10 @@ export default async function Page() {
                     )
                     : (
                         <div>
-                            <p> You are not logged into DocuSign yet. Please log in through the Accounts page: </p>
+                            <p> You are not logged into DocuSign yet. To login, visit the Accounts page by clicking the link below: </p>
                             {<div>
                                 <Link
-                                    className="flex mt-3 mb-3 h-10 items-center rounded-lg w-36 border border-solid border-black bg-yellow-200 px-4 text-sm font-medium"
+                                    className="flex mt-3 mb-3 h-10 items-center rounded-lg w-24 border border-solid border-black bg-yellow-200 px-4 text-sm font-medium"
                                     href={'../dashboard/account/'}>DocuSign</Link>
                             </div>
                             }

@@ -10,10 +10,10 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Quotes', href: '/dashboard/quotes' },
+          { label: 'Docusign', href: '/dashboard/docusign' },
           {
             label: 'Add Envelope',
-            href: '/dashboard/quotes/new-env',
+            href: '/dashboard/docusign/new-env',
             active: true,
           },
         ]}

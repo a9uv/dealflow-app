@@ -52,7 +52,7 @@ const EnvelopeTable = () => {
                                                     <td className="whitespace-nowrap px-4 py-3">{envelope.emailSubject}</td>
                                                     <td className="whitespace-nowrap px-3 py-3">{envelope.emailBlurb}</td>
                                                     <td className="whitespace-nowrap px-2 py-3">{envelope.sentDateTime}</td>
-                                                    <td className="whitespace-nowrap px-3 py-3">{envelope.status}</td>
+                                                    <td className="whitespace-nowrap px-3 py-3 capitalize text-capitalize">{envelope.status}</td>
                                                     <td className="whitespace-nowrap px-3 py-3">
                                                         <button
                                                             className=" flex h-10 items-center rounded-lg w-22 border border-solid border-black bg-yellow-200 px-4 text-sm font-medium"

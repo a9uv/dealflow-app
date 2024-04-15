@@ -38,13 +38,13 @@ export default async function Page(props: any) {
 
     const accessJSON = res.data
     const writingData = JSON.stringify(accessJSON)
-      console.log('reqBody in account/doc \n', writingData);
+      // console.log('reqBody in account/doc \n', writingData);
 
    
     if (res.status === 200) {
-      console.log('accessJSON data that is written,' , writingData);
+      // console.log('accessJSON data that is written,' , writingData);
       const filePath = path.join(process.cwd(), 'src','public', 'docusign_data', 'access.js');
-      console.log('\n\nfilePath: ', filePath);
+      // console.log('\n\nfilePath: ', filePath);
       
       fs.writeFileSync(filePath, `export const accessData = ${writingData}`)
       
