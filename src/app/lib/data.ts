@@ -13,6 +13,24 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient()
 
+
+export async function fetchClients() {
+    unstable_noStore()
+    try {
+        const clients = await prisma.client.findMany({
+            orderBy: {
+                name:'asc'
+            },
+        })
+
+        return clients
+    } catch (error) {
+        console.log(`fetchClients error: ${error}`);
+        
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 export async function fetchRevenue() {
 
     // Add noStore() here to prevent the response from being cached.
@@ -176,3 +194,83 @@ export async function fetchEnvelopes() {
     }
 
 }
+
+
+// const ITEMS_PER_PAGE = 6;
+// export async function fetchFilteredClients(
+//     query: string,
+//     currentPage: number
+// ) {
+//     const ITEMS_PER_PAGE = 10;
+//     // const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+//     try {
+//         const clients = await prisma.client.findMany({
+//             // skip: offset,
+//             take: ITEMS_PER_PAGE,
+//             where: {
+//                 OR: [
+//                     { name: { contains: query, mode: 'insensitive' } },
+//                     { dateOfBirth: { contains: query } },
+//                     { phoneNumber: { contains: query } },
+//                     { email: { contains: query, mode: 'insensitive' } },
+//                     { address: { contains: query } },
+//                     { status: { contains: query, mode: 'insensitive' } },
+//                 ],
+//             },
+//             include: {
+//                 user: {
+//                     select: {
+//                         id: true,
+//                     },
+//                 },
+//             },
+//             orderBy: {
+//                 name: 'asc',
+//             },
+//         });
+
+//         console.log(`\n\n clients: \n`, clients);
+        
+//         return clients;
+//     } catch (error) {
+//         console.error('Database Error:', error);
+//         throw new Error('Failed to fetch clients.');
+//     }
+// }
+
+// export async function fetchFilteredInvoices(
+//     query: string,
+//     currentPage: number,
+// ) {
+//     noStore();
+//     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+//     try {
+//         const invoices = await sql<InvoicesTable>`
+//       SELECT
+//         invoices.id,
+//         invoices.amount,
+//         invoices.date,
+//         invoices.status,
+//         customers.name,
+//         customers.email,
+//         customers.image_url
+//       FROM invoices
+//       JOIN customers ON invoices.customer_id = customers.id
+//       WHERE
+//         customers.name ILIKE ${`%${query}%`} OR
+//         customers.email ILIKE ${`%${query}%`} OR
+//         invoices.amount::text ILIKE ${`%${query}%`} OR
+//         invoices.date::text ILIKE ${`%${query}%`} OR
+//         invoices.status ILIKE ${`%${query}%`}
+//       ORDER BY invoices.date DESC
+//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+//     `;
+
+//         return invoices.rows;
+//     } catch (error) {
+//         console.error('Database Error:', error);
+//         throw new Error('Failed to fetch invoices.');
+//     }
+// }

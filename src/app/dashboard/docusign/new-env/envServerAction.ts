@@ -10,6 +10,7 @@ import axios from 'axios'
 
 import { NextResponse } from 'next/server';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 const path = require("path")
 
 
@@ -66,6 +67,7 @@ export async function createEnvelope(state: NextResponse, formData: FormData) {
     }
 
 
+    revalidatePath('/dashboard/docusign')
     redirect('/dashboard/docusign')
 
 

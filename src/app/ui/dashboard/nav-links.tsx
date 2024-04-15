@@ -23,7 +23,7 @@ const links = [
     { name: 'Home', href: '/dashboard', icon: HomeIcon },
     // {name: 'Invoices', href: '/dashboard/invoices', icon: DocumentDuplicateIcon},
     { name: 'ClientTrack', href: '/dashboard/clients', icon: UsersIcon },
-    { name: 'CaseTrack', href: '/dashboard/cases', icon: BriefcaseIcon },
+    // { name: 'CaseTrack', href: '/dashboard/cases', icon: BriefcaseIcon },
     { name: 'Quotes', href: '/dashboard/quotes', icon: PencilIcon },
     { name: 'Forms', href: '/dashboard/forms', icon: DocumentDuplicateIcon },
     { name: 'Agents', href: '/dashboard/agents', icon: UserGroupIcon },

@@ -19,65 +19,12 @@ import RefreshButton from './RefreshButton';
 const path = require("path")
 
 
-// async function showDocuUI() {
 
-//     try {
-//         const res = await axios.post("http://localhost:3000/api/p-env", {
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         })
-
-
-//         const resData = await res.data
-//         console.log('post env response \n', resData);
-
-
-//     } catch (error) {
-//         console.error(error)
-//     }
-// }
 
 export default async function Page() {
 
-    // const path = './Geico_Home.pdf'
-    //   const filePath = 'public' + forms[0].href
-    //   console.log('filePath: ', filePath);
-
-
-    // const base64 = fs.readFileSync(filePath, { encoding: "base64" })
-    // console.log('PDF Binary Here: ', base64.substring(0, 50));
-
 
     console.log('\n\nentering dashboard/docusign . . . ');
-    // console.log(`${accessData.baseURI}/v2.1/accounts/${accessData.accountID}/views/console`);
-
-
-
-    // if (accessData.accessToken !== "" && accessData.accountID !== ""
-    //     && accessData.baseURI !== "" && envelopeList.resultSetSize === "") {
-    //     const res = await axios.get('http://localhost:3000/api/g-envelope');
-
-    //     if (res.data.error) {
-    //         return (
-    //             <div>
-    //                 Error in fetching DocuSign Envelope Data - try again later.
-    //             </div>
-    //         )
-    //     }
-    //     const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'envelope.js');
-    //     fs.writeFileSync(filePath, `export const envelopeList = ${JSON.stringify(res.data)}`);
-    // }
-    // const consoleRes = await axios.post("http://localhost:3000/api/p-env");
-    // console.log(consoleRes.status);
-
-
-    let ids: string[] = [];
-    let pdfs: string[] = [];
-    let jsonPDFS = {}
-
-
-
 
 
 
@@ -114,18 +61,7 @@ export default async function Page() {
                             )
 
                         }
-                        {/* {
-              docs.consoleURL === "" ? (
-                <div>
-                  Console Data Yet to be retrieved
-                  </div>
-              ): (
-                  <div> 
-                    <embed src={docs.consoleURL} width="100%" height="600px"  />
-                  </div>
-                    
-              )
-            } */}
+
 
                     </div>
                     )

@@ -80,13 +80,9 @@ const EnvelopeTable = () => {
                                 </table>
                             ):
                                 (
-<div>No envelopes found </div>
+                                    <div>No envelopes found </div>
                                 )
                 }
-
-
-                            
-                           
                 </div>
             </div>
         </div>
