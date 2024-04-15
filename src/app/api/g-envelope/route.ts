@@ -24,7 +24,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const sixtyDays = 60 * 24 * 60 * 60 * 1000;
     const sixtyDaysAgo = new Date(Date.now() - sixtyDays);
     const fromDate = sixtyDaysAgo.toISOString();
-    console.log('encodede date: \n', encodeURIComponent(fromDate));
 
     const qParam = new URLSearchParams({ fromDate });
     
@@ -66,9 +65,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 "startPosition": data.startPosition,
                 "endPosition": data.endPosition,
                 "totalSetSize": data.totalSetSize,
-                "envelopes": data.envelopes.map((envelope: {
-                    sentDateTime: any; status: any; emailSubject: any; emailBlurb: any; envelopeId: any; sender: { userName: any; userId: any; accountId: any; email: any; ipAddress: any; }; 
-}, index: number) => ({
+                "envelopes": data.envelopes.filter((envelope: {
+                    sentDateTime: any; status: any; emailSubject: any; emailBlurb: any; envelopeId: any; sender: { userName: any; userId: any; accountId: any; email: any; ipAddress: any; };
+                }, index: number) => envelope.status !== 'voided').map((envelope: {
+                    sentDateTime: any; status: any; emailSubject: any; emailBlurb: any; envelopeId: any; sender: { userName: any; userId: any; accountId: any; email: any; ipAddress: any; };
+                }, index: number) => ({
                     "status": envelope.status,
                     "emailSubject": envelope.emailSubject,
                     "emailBlurb": envelope.emailBlurb,
@@ -83,7 +84,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
                         "ipAddress": envelope.sender.ipAddress
                     }
                 }))
-            };
+            }
+
             
             
             return NextResponse.json(customJsonResponse)
@@ -100,7 +102,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
 }
 
 async function getBase64String(envelopeId: string) {
-    console.log('\n\nenter getBase64String -- get document PDFs . . . ');
     
     const base64EndPoint = `http://localhost:3000/api/g-doc-list?envelopeId=${envelopeId}`;
     const base64Res = await axios.get(base64EndPoint);
@@ -115,7 +116,7 @@ async function getBase64String(envelopeId: string) {
 
 function userViewDateConverter(envelopeDate: string):string {
     const [dateString, timeString] = envelopeDate.split("T") as [string, string];
-    console.log(`\ndateString: ${dateString}\ntimeString: ${timeString}\n`);
+    // console.log(`\ndateString: ${dateString}\ntimeString: ${timeString}\n`);
 
     const month = dateString.slice(5, 7);
     const year = dateString.slice(0, 4);
@@ -134,9 +135,9 @@ function userViewDateConverter(envelopeDate: string):string {
     const formattedTime = `${convertedHours}:${minutes} ${meridiem}`;
 
 
-    const userViewDate = `${formattedDate}| ${formattedTime}`;
+    const userViewDate = `${formattedDate} | ${formattedTime}`;
 
-    console.log(`\n${userViewDate}\n`)
+    // console.log(`\n${userViewDate}\n`)
 
     return userViewDate;
 

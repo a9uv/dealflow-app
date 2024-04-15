@@ -1,7 +1,6 @@
 // import {getTokens, getEnvelopes} from '~/app/lib/docusign';
 
 import axios from 'axios'
-import fs from 'fs'
 import { accTokenMemory } from "~/app/api/a-token/route";
 import Link from 'next/link';
 import DocuSignButtons from './docuSignButtons'
@@ -12,6 +11,9 @@ import { envelopeList } from '~/public/docusign_data/envelope'
 import EnvelopeTable from './EnvelopeTable'
 import { docs } from '~/public/docusign_data/docData'
 import { forms } from '../forms/FormsData';
+import { fetchEnvelopes } from '~/app/lib/data';
+import { NextResponse } from 'next/server';
+import RefreshButton from './RefreshButton';
 
 
 const path = require("path")
@@ -52,30 +54,20 @@ export default async function Page() {
 
 
 
-    if (accessData.accessToken !== "" && accessData.accountID !== ""
-        && accessData.baseURI !== "" && envelopeList.resultSetSize === "") {
-        const res = await axios.get('http://localhost:3000/api/g-envelope');
+    // if (accessData.accessToken !== "" && accessData.accountID !== ""
+    //     && accessData.baseURI !== "" && envelopeList.resultSetSize === "") {
+    //     const res = await axios.get('http://localhost:3000/api/g-envelope');
 
-        if (res.data.error) {
-            return (
-                <div>
-                    Error in fetching DocuSign Envelope Data - try again later.
-                </div>
-            )
-        }
-
-        const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'envelope.js');
-
-        fs.writeFileSync(filePath, `export const envelopeList = ${JSON.stringify(res.data)}`);
-
-
-
-
-    }
-
-
-
-
+    //     if (res.data.error) {
+    //         return (
+    //             <div>
+    //                 Error in fetching DocuSign Envelope Data - try again later.
+    //             </div>
+    //         )
+    //     }
+    //     const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'envelope.js');
+    //     fs.writeFileSync(filePath, `export const envelopeList = ${JSON.stringify(res.data)}`);
+    // }
     // const consoleRes = await axios.post("http://localhost:3000/api/p-env");
     // console.log(consoleRes.status);
 
@@ -101,7 +93,8 @@ export default async function Page() {
                     (<div>
                         <div >
                             <h1 className="text-xl font-medium">Envelopes</h1>
-                            <div className="w-10/12"> </div>
+                            <RefreshButton />
+
                         </div>
                         {envelopeList.resultSetSize === "" ?
                             (

@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const searchParams = req.nextUrl.searchParams
     const envelopeId = searchParams.get('envelopeId')
     
-    console.log('envelopeId in g-doc-list: ', envelopeId);
+    // console.log('envelopeId in g-doc-list: ', envelopeId);
 
 
         const baseEndPoint =

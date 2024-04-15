@@ -7,29 +7,12 @@ import fs from 'fs'
 import { ArrowDownIcon } from "@heroicons/react/20/solid";
 import { forms } from "../../forms/FormsData";
 import axios from 'axios'
+
+import { NextResponse } from 'next/server';
 const path = require("path")
-// const FormsDataSchema = z.object({
-//   id: z.string(),
-//   href: z.string(),
-//   name: z.string(),
-//   company: z.string(),
-//   icon: z.unknown(), // You may need to adjust this based on the actual JSX.Element structure
-// });
-
-// const FormSchema = z.object({
-//     name: z.string(),
-//     email: z.string(),
-//     subject: z.string(),
-//     message: z.string(),
-//     chosenForm: FormsDataSchema
-// })
 
 
-
-
-
-
-export async function createEnvelope(State: any, formData: FormData) {
+export async function createEnvelope(state: NextResponse, formData: FormData) {
     
 
     const rawFormData = {
@@ -39,9 +22,6 @@ export async function createEnvelope(State: any, formData: FormData) {
         message: formData.get('message'),
         chosenForm: formData.get('chosenForm')
     }
-
-
-    console.log(rawFormData)
 
     const envelope:any  = makeEnvelope(rawFormData)
     const jsonEnv = JSON.stringify(envelope)
@@ -58,6 +38,23 @@ export async function createEnvelope(State: any, formData: FormData) {
         if (res.status == 200) {
             const resData = await res.data
             console.log('post env response \n', resData);
+
+            try {
+                const refreshDocu = await axios.get('http://localhost:3000/api/g-envelope');
+
+                if (refreshDocu.status == 200) {
+
+                    const filePath = path.join(process.cwd(), 'src', 'public', 'docusign_data', 'envelope.js');
+                    fs.writeFileSync(filePath, `export const envelopeList = ${JSON.stringify(refreshDocu.data)}`);
+                    return NextResponse.redirect('/dashboard/docusign');
+                } else {
+                    console.error(`ERROR REFETCHING DOCUMENTS: status code ${res.status}`)
+                }
+            } catch (error) {
+                console.error(error)
+            }
+
+            
         } else {
             console.error(`ERROR: status code ${res.status}`)
         }
@@ -135,6 +132,7 @@ function makeEnvelope(rawFormData: any) {
     //Final Envelope Build
     const envelope = {
         emailSubject: rawFormData.subject,
+        emailBlurb: rawFormData.message,
         documents: [documents],
         recipients: recipients,
         status: "sent"

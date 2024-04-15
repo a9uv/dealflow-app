@@ -1,4 +1,4 @@
-export const envelopes = { "resultSetSize": "" }
+export const envelopeList = { "resultSetSize": "" }
 
 
 export const doc={
